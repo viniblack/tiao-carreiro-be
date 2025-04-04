@@ -2,22 +2,42 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Music;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
-    {
-        // User::factory(10)->create();
+  public function run(): void
+  {
+    $musics = [
+      [
+        'title' => 'Pagode em Brasília',
+        'views' => 5000000,
+        'youtube_id' => 'lpGGNA6_920',
+        'thumb' => 'https://img.youtube.com/vi/lpGGNA6_920/hqdefault.jpg',
+      ],
+      [
+        'title' => 'Rio de Lágrimas',
+        'views' => 153000,
+        'youtube_id' => 'FxXXvPL3JIg',
+        'thumb' => 'https://img.youtube.com/vi/FxXXvPL3JIg/hqdefault.jpg',
+      ],
+      [
+        'title' => 'Tristeza do Jeca',
+        'views' => 154000,
+        'youtube_id' => 'tRQ2PWlCcZk',
+        'thumb' => 'https://img.youtube.com/vi/tRQ2PWlCcZk/hqdefault.jpg',
+      ],
+      [
+        'title' => 'Terra roxa',
+        'views' => 3300000,
+        'youtube_id' => '4Nb89GFu2g4',
+        'thumb' => 'https://img.youtube.com/vi/4Nb89GFu2g4/hqdefault.jpg',
+      ],
+    ];
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+    foreach ($musics as $music) {
+      Music::create($music);
     }
+  }
 }
