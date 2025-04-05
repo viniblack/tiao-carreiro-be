@@ -11,7 +11,7 @@ class MusicsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,10 +22,7 @@ class MusicsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'views' => 'required|integer|min:0',
-            'youtube_id' => 'required|string|max:255',
-            'thumb' => 'required|url',
+            'youtube_url' => 'required|url',
         ];
     }
 
@@ -37,10 +34,7 @@ class MusicsRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'title' => "title",
-            'views' => "views",
-            'youtube_id' => "youtube_id",
-            'thumb' => "thumb",
+            'youtube_url' => "YouTube URL",
         ];
     }
 
@@ -53,6 +47,7 @@ class MusicsRequest extends FormRequest
     {
         return [
             "required" => "The ':attribute' field is required.",
+            "url" => "The ':attribute' must be a valid URL.",
         ];
     }
 }

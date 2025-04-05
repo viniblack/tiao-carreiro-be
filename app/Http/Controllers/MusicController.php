@@ -4,18 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MusicsRequest;
 use App\Http\Resources\MusicResource;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Models\Music;
+use App\Services\YouTubeService;
+use Illuminate\Http\Response;
 
 class MusicController extends Controller
 {
+  protected $youtube;
+
+  public function __construct(YouTubeService $youtube)
+  {
+    $this->youtube = $youtube;
+  }
+
   /**
    * List all registered musics
    */
   public function index()
   {
-    $musics = Music::paginate(6);
+    $musics = Music::paginate(5);
 
     if (!$musics->isEmpty()) {
       $paginationData = $musics->toArray();
@@ -46,20 +53,41 @@ class MusicController extends Controller
    */
   public function store(MusicsRequest $request)
   {
-    $music = Music::create($request->validated());
+    $data = $request->validated();
 
-    if ($music->save()) {
+    // Pega o ID do vídeo a partir da URL enviada
+    $videoId = $this->youtube->extractVideoId($data['youtube_url']);
+
+    if (!$videoId) {
       return response()->json([
-        'status' => Response::HTTP_OK,
-        'message' => 'Music created successfully',
-        'music' => new MusicResource($music),
-      ], Response::HTTP_CREATED);
+        'status' => Response::HTTP_BAD_REQUEST,
+        'message' => 'Invalid video URL.',
+      ], Response::HTTP_BAD_REQUEST);
     }
 
+    try {
+      // Pega os dados do vídeo pelo ID
+      $videoInfo = $this->youtube->getVideoInfo($videoId);
+    } catch (\Exception $e) {
+      return response()->json([
+        'status' => Response::HTTP_BAD_REQUEST,
+        'message' => 'Error fetching video information: ' . $e->getMessage(),
+      ], Response::HTTP_BAD_REQUEST);
+    }
+
+    // Cria a música no banco
+    $music = Music::create([
+      'youtube_id' => $videoInfo['youtube_id'],
+      'title' => $videoInfo['titulo'],
+      'views' => $videoInfo['visualizacoes'],
+      'thumb' => $videoInfo['thumb'],
+    ]);
+
     return response()->json([
-      'status' => Response::HTTP_BAD_REQUEST,
-      'message' => 'Error creating music',
-    ], Response::HTTP_BAD_REQUEST);
+      'status' => Response::HTTP_CREATED,
+      'message' => 'Music created successfully',
+      'music' => new MusicResource($music),
+    ], Response::HTTP_CREATED);
   }
 
   /**
