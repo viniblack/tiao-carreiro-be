@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/logout', [AuthController::class, 'logout']);
 
   Route::prefix('admin')->middleware('is_admin')->group(function () {
-    Route::get('/isApprove', [MusicController::class, 'musicsApproval']);
+    Route::get('/pending', [MusicController::class, 'pendingMusics']);
     Route::post('/approve/{id}', [MusicController::class, 'approval']);
     Route::delete('/rejecting/{id}', [MusicController::class, 'destroy']);
     Route::patch('/musics/{music}', [MusicController::class, 'update']);

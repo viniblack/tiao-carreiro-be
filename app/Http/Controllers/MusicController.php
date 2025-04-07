@@ -164,7 +164,7 @@ class MusicController extends Controller
   /**
    * List all pending registered songs
    */
-  public function musicsApproval()
+  public function pendingMusics()
   {
     $musics = Music::where('approved', false)
       ->orderBy('views', 'desc')

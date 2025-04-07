@@ -24,11 +24,11 @@ class AuthController extends Controller
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
-            'status' => Response::HTTP_OK,
+            'status' => Response::HTTP_CREATED,
             'message' => 'User created successfully',
             'token' => $token,
             'user' => new UserResource($user)
-        ], Response::HTTP_OK);
+        ], Response::HTTP_CREATED);
     }
 
     public function login(Request $request)

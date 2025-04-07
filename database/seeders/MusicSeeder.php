@@ -1,27 +1,13 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
 use App\Models\Music;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
-class MusicFactory extends Factory
+class MusicSeeder extends Seeder
 {
-    protected $model = Music::class;
-
-    public function definition(): array
-    {
-        return [
-            'title' => 'O Mineiro e o Italiano',
-            'views' => 5200000,
-            'youtube_id' => 's9kVG2ZaTS4',
-            'thumb' => 'https://img.youtube.com/vi/s9kVG2ZaTS4/hqdefault.jpg',
-            'approved' => true,
-        ];
-    }
-
-    // Método customizado para usar dados fixos
-    public function customData(): self
+    public function run(): void
     {
         $musics = [
             [
@@ -54,8 +40,8 @@ class MusicFactory extends Factory
             ],
         ];
 
-        $this->state(fn() => fake()->randomElement($musics));
-
-        return $this;
+        foreach ($musics as $music) {
+            Music::create($music);
+        }
     }
 }
