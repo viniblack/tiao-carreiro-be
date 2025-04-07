@@ -17,5 +17,6 @@ class Music extends Model
         'views',
         'youtube_id',
         'thumb',
+        'approved'
     ];
 }
