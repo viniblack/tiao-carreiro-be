@@ -57,14 +57,16 @@ A aplicação estará disponível em: `http://localhost:8000`
 ## 📁 Estrutura do Projeto
 
 ```bash
+tiao-carreiro-be/
 ├── app/
-│   ├── Console/         # Comandos Artisan personalizados
-│   ├── Exceptions/      # Tratamento de exceções
 │   ├── Http/
 │   │   ├── Controllers/ # Lógica dos controladores da aplicação
 │   │   ├── Middleware/  # Middlewares HTTP
+│   │   ├── Requests/    # 
+│   │   ├── Resources/   # 
 │   ├── Models/          # Modelos Eloquent
-│   └── Providers/       # Providers de serviço da aplicação
+│   ├── Providers/       # Providers de serviço da aplicação
+│   └── Services/        # 
 │
 ├── bootstrap/           # Arquivo de bootstrapping da aplicação
 ├── config/              # Arquivos de configuração (auth, database, mail, etc)
@@ -80,7 +82,7 @@ A aplicação estará disponível em: `http://localhost:8000`
 │   └── web.php          # Rotas web (caso use)
 ├── storage/             # Arquivos gerados pela aplicação (logs, cache, etc)
 ├── tests/               # Testes automatizados (Feature, Unit)
-├── .env                 # Variáveis de ambiente
+├── .env.example                # Variáveis de ambiente
 ├── artisan              # Executável do Laravel Artisan
 └── composer.json        # Dependências PHP
 ```
