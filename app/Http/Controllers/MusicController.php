@@ -17,6 +17,38 @@ class MusicController extends Controller
     $this->youtube = $youtube;
   }
 
+  private function fetchVideoData(string $youtubeUrl)
+  {
+    $videoId = $this->youtube->extractVideoId($youtubeUrl);
+
+    if (!$videoId) {
+      return [
+        'error' => true,
+        'response' => response()->json([
+          'status' => Response::HTTP_BAD_REQUEST,
+          'message' => 'Invalid video URL.',
+        ], Response::HTTP_BAD_REQUEST)
+      ];
+    }
+
+    try {
+      $videoInfo = $this->youtube->getVideoInfo($videoId);
+    } catch (\Exception $e) {
+      return [
+        'error' => true,
+        'response' => response()->json([
+          'status' => Response::HTTP_BAD_REQUEST,
+          'message' => 'Error fetching video information: ' . $e->getMessage(),
+        ], Response::HTTP_BAD_REQUEST)
+      ];
+    }
+
+    return [
+      'error' => false,
+      'videoInfo' => $videoInfo
+    ];
+  }
+
   /**
    * List all registered approved songs
    */
@@ -57,27 +89,13 @@ class MusicController extends Controller
   {
     $data = $request->validated();
 
-    // Pega o ID do vídeo a partir da URL enviada
-    $videoId = $this->youtube->extractVideoId($data['youtube_url']);
-
-    if (!$videoId) {
-      return response()->json([
-        'status' => Response::HTTP_BAD_REQUEST,
-        'message' => 'Invalid video URL.',
-      ], Response::HTTP_BAD_REQUEST);
+    $videoData = $this->fetchVideoData($data['youtube_url']);
+    if ($videoData['error']) {
+      return $videoData['response'];
     }
 
-    try {
-      // Pega os dados do vídeo pelo ID
-      $videoInfo = $this->youtube->getVideoInfo($videoId);
-    } catch (\Exception $e) {
-      return response()->json([
-        'status' => Response::HTTP_BAD_REQUEST,
-        'message' => 'Error fetching video information: ' . $e->getMessage(),
-      ], Response::HTTP_BAD_REQUEST);
-    }
+    $videoInfo = $videoData['videoInfo'];
 
-    // Cria a música no banco
     $music = Music::create([
       'youtube_id' => $videoInfo['youtube_id'],
       'title' => $videoInfo['titulo'],
@@ -121,27 +139,13 @@ class MusicController extends Controller
   {
     $data = $request->validated();
 
-    // Pega o ID do vídeo a partir da URL enviada
-    $videoId = $this->youtube->extractVideoId($data['youtube_url']);
-
-    if (!$videoId) {
-      return response()->json([
-        'status' => Response::HTTP_BAD_REQUEST,
-        'message' => 'Invalid video URL.',
-      ], Response::HTTP_BAD_REQUEST);
+    $videoData = $this->fetchVideoData($data['youtube_url']);
+    if ($videoData['error']) {
+      return $videoData['response'];
     }
 
-    try {
-      // Pega os dados do vídeo pelo ID
-      $videoInfo = $this->youtube->getVideoInfo($videoId);
-    } catch (\Exception $e) {
-      return response()->json([
-        'status' => Response::HTTP_BAD_REQUEST,
-        'message' => 'Error fetching video information: ' . $e->getMessage(),
-      ], Response::HTTP_BAD_REQUEST);
-    }
+    $videoInfo = $videoData['videoInfo'];
 
-    // Cria a música no banco
     $music = Music::create([
       'youtube_id' => $videoInfo['youtube_id'],
       'title' => $videoInfo['titulo'],
@@ -221,27 +225,14 @@ class MusicController extends Controller
   {
     $data = $request->validated();
 
-    // Se foi enviado um novo link do YouTube, atualiza os dados automaticamente
     if (!empty($data['youtube_url'])) {
-      $videoId = $this->youtube->extractVideoId($data['youtube_url']);
-
-      if (!$videoId) {
-        return response()->json([
-          'status' => Response::HTTP_BAD_REQUEST,
-          'message' => 'Invalid video URL.',
-        ], Response::HTTP_BAD_REQUEST);
+      $videoData = $this->fetchVideoData($data['youtube_url']);
+      if ($videoData['error']) {
+        return $videoData['response'];
       }
 
-      try {
-        $videoInfo = $this->youtube->getVideoInfo($videoId);
-      } catch (\Exception $e) {
-        return response()->json([
-          'status' => Response::HTTP_BAD_REQUEST,
-          'message' => 'Error fetching video information: ' . $e->getMessage(),
-        ], Response::HTTP_BAD_REQUEST);
-      }
+      $videoInfo = $videoData['videoInfo'];
 
-      // Atualiza os campos relacionados ao vídeo
       $data['youtube_id'] = $videoInfo['youtube_id'];
       $data['title'] = $videoInfo['titulo'];
       $data['views'] = $videoInfo['visualizacoes'];
