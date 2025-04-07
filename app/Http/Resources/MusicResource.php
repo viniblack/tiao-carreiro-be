@@ -20,6 +20,7 @@ class MusicResource extends JsonResource
       'views' => $this->views,
       'youtube_id' => $this->youtube_id,
       'thumb' => $this->thumb,
+      'approved' => $this->approved,
       'created_at' => $this->created_at->toDateTimeString(),
     ];
   }
