@@ -6,7 +6,8 @@ use App\Http\Controllers\AuthController;
 
 Route::fallback(function () {
   return response()->json([
-    'message' => 'Endpoint não encontrado.'
+    'status' => 404,
+    'message' => 'Endpoint not found.'
   ], 404);
 });
 
@@ -25,12 +26,13 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/user', [AuthController::class, 'user']);
   Route::post('/logout', [AuthController::class, 'logout']);
 
-  Route::get('admin/isApprove', [MusicController::class, 'musicsApproval']);
-  Route::post('admin/approve/{id}', [MusicController::class, 'approval']);
-
-  Route::delete('/admin/rejecting/{id}', [MusicController::class, 'destroy']);
-  Route::patch('admin/musics/{music}', [MusicController::class, 'update']);
-  Route::post('admin/musics', [MusicController::class, 'storeAdm']);
+  Route::prefix('admin')->middleware('is_admin')->group(function () {
+    Route::get('/isApprove', [MusicController::class, 'musicsApproval']);
+    Route::post('/approve/{id}', [MusicController::class, 'approval']);
+    Route::delete('/rejecting/{id}', [MusicController::class, 'destroy']);
+    Route::patch('/musics/{music}', [MusicController::class, 'update']);
+    Route::post('/musics', [MusicController::class, 'storeAdm']);
+  });
 
   Route::apiResource('musics', MusicController::class)->except(['index', 'update', 'destroy']);
 });
