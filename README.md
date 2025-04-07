@@ -1,6 +1,8 @@
 # Top 5 musicas Tião Carreiro & Pardinho - Backend
 
 Este é o backend da aplicação **Tião Carreiro**, desenvolvido em **Laravel 11**.
+🔗 Acesse também o repositório do frontend:
+https://github.com/viniblack/tiao-carreiro-fe
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -8,6 +10,7 @@ Este é o backend da aplicação **Tião Carreiro**, desenvolvido em **Laravel 1
 -   **PHP 8.2+**
 -   **Composer**
 -   **SQLite**
+-   **PHPUnit**
 
 ## ⚙️ Como rodar localmente
 
@@ -44,13 +47,31 @@ php artisan key:generate
 php artisan migrate
 ```
 
-### 6. Inicie o servidor de desenvolvimento
+### 6. Execute os seeders
+
+```bash
+php artisan db:seed
+```
+
+Os seeders adicionam algumas músicas e criam dois tipos de usuários para teste:
+
+```text
+Usuário comum:
+Email: member@email.com
+Senha: senha123
+
+Usuário admin:
+Email: admin@email.com
+Senha: senha123
+```
+
+### 7. Inicie o servidor de desenvolvimento
 
 ```bash
 php artisan serve
 ```
 
-A aplicação estará disponível em: `http://localhost:8000`
+A aplicação estará disponível em: http://localhost:8000
 
 ---
 
@@ -60,45 +81,37 @@ A aplicação estará disponível em: `http://localhost:8000`
 tiao-carreiro-be/
 ├── app/
 │   ├── Http/
-│   │   ├── Controllers/ # Lógica dos controladores da aplicação
-│   │   ├── Middleware/  # Middlewares HTTP
-│   │   ├── Requests/    # 
-│   │   ├── Resources/   # 
-│   ├── Models/          # Modelos Eloquent
-│   ├── Providers/       # Providers de serviço da aplicação
-│   └── Services/        # 
+│   │   ├── Controllers/
+│   │   ├── Middleware/
+│   │   ├── Requests/
+│   │   ├── Resources/
+│   ├── Models/
+│   ├── Providers/
+│   └── Services/
 │
-├── bootstrap/           # Arquivo de bootstrapping da aplicação
-├── config/              # Arquivos de configuração (auth, database, mail, etc)
+├── bootstrap/
+├── config/
 ├── database/
-│   ├── factories/       # Fábricas para testes e seeds
-│   ├── migrations/      # Arquivos de migração do banco de dados
-│   └── seeders/         # Seeds para popular o banco com dados
+│   ├── factories/
+│   ├── migrations/
+│   └── seeders/
 │
-├── public/              # Pasta pública (index.php, assets públicos)
-├── resources/           # Views, e arquivos frontend (caso use blade, etc)
+├── public/
+├── resources/
 ├── routes/
-│   ├── api.php          # Rotas da API
-│   └── web.php          # Rotas web (caso use)
-├── storage/             # Arquivos gerados pela aplicação (logs, cache, etc)
-├── tests/               # Testes automatizados (Feature, Unit)
-├── .env.example                # Variáveis de ambiente
-├── artisan              # Executável do Laravel Artisan
-└── composer.json        # Dependências PHP
+│   ├── api.php
+│   └── web.php
+├── storage/
+├── tests/
+├── .env.example
+├── artisan
+└── composer.json
 ```
 
 ---
 
 ## 🧪 Testes
 
-Se houver testes implementados:
-
 ```bash
 php artisan test
 ```
-
-## 📌 Observações
-
--   Certifique-se de estar usando uma versão do PHP compatível (8.2+).
--   Verifique se o banco de dados está rodando corretamente.
--   Caso esteja usando Docker ou Laravel Sail, adapte os comandos conforme necessário.
