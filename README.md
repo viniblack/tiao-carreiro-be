@@ -1,18 +1,25 @@
-# Top 5 musicas Tião Carreiro & Pardinho - Backend
+# Projeto Tião Carreiro (Backend)
 
-Este é o backend da aplicação **Tião Carreiro**, desenvolvido em **Laravel 11**.
-🔗 Acesse também o repositório do frontend:
-https://github.com/viniblack/tiao-carreiro-fe
+Este é o **backend** do projeto _Tião Carreiro_, construído com **Laravel 11** e **PHP 8.2+**.  
+A API REST expõe os dados de músicas e usuários da aplicação, permitindo visualização, sugestão de vídeos e controle de acessos.
 
-## 🚀 Tecnologias Utilizadas
+> O projeto utiliza **roles de usuário**, seeders personalizados e banco de dados em **SQLite** para facilitar o setup local.
 
--   **Laravel 11**
--   **PHP 8.2+**
--   **Composer**
--   **SQLite**
--   **PHPUnit**
+🔗 Veja também o [repositório do frontend](https://github.com/viniblack/tiao-carreiro-fe)
 
-## ⚙️ Como rodar localmente
+---
+
+## 🚀 Tecnologias & Ferramentas
+
+- ⚙️ **Laravel 11**
+- 🐘 **PHP 8.2+**
+- 📦 **Composer**
+- 🧾 **SQLite**
+- 🧪 **PHPUnit** (testes)
+
+---
+
+## 🧑‍💻 Como rodar localmente
 
 ### 1. Clone o repositório
 
@@ -21,17 +28,19 @@ git clone https://github.com/viniblack/tiao-carreiro-be.git
 cd tiao-carreiro-be
 ```
 
-### 2. Instale as dependências
+### 2. Instale as dependências do PHP
 
 ```bash
 composer install
 ```
 
-### 3. Copie o arquivo `.env` e configure as variáveis de ambiente
-
+### 3. Configure o ambiente
+Copie o arquivo `.env` e edite conforme necessário:
 ```bash
 cp .env.example .env
 ```
+> 💡 Por padrão, o projeto usa SQLite, ideal para testes locais.
+Altere a variável DB_CONNECTION se quiser usar MySQL ou outro banco.
 
 Configure o banco de dados e outras variáveis necessárias no arquivo `.env`.
 
@@ -41,37 +50,37 @@ Configure o banco de dados e outras variáveis necessárias no arquivo `.env`.
 php artisan key:generate
 ```
 
-### 5. Execute as migrations
+### 5. Rode as migrations
 
 ```bash
 php artisan migrate
 ```
 
-### 6. Execute os seeders
+### 6. Popule o banco com seeders
 
 ```bash
 php artisan db:seed
 ```
 
-Os seeders adicionam algumas músicas e criam dois tipos de usuários para teste:
+Isso criará músicas de exemplo e dois usuários:
 
 ```text
-Usuário comum:
-Email: member@email.com
-Senha: senha123
+👤 Usuário comum:
+  Email: member@email.com
+  Senha: senha123
 
-Usuário admin:
-Email: admin@email.com
-Senha: senha123
+🛠️ Administrador:
+  Email: admin@email.com
+  Senha: senha123
 ```
 
-### 7. Inicie o servidor de desenvolvimento
+### 7. nicie o servidor
 
 ```bash
 php artisan serve
 ```
 
-A aplicação estará disponível em: http://localhost:8000
+A API estará disponível em: http://localhost:8000
 
 ---
 
@@ -112,6 +121,14 @@ tiao-carreiro-be/
 
 ## 🧪 Testes
 
+Execute todos os testes da aplicação com:
+
 ```bash
 php artisan test
 ```
+
+## 🙌 Contribuições
+
+Este projeto foi criado como um desafio técnico individual.
+Sinta-se à vontade para clonar, abrir issues ou sugerir melhorias!
+
